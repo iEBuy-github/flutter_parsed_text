@@ -150,14 +150,18 @@ class ParsedText extends StatelessWidget {
             widget = TextSpan(
               text: "${result['display']}",
               style: mapping.style != null ? mapping.style : style,
-              recognizer: TapGestureRecognizer()
-                ..onTap = () => mapping.onTap!(matchText),
+              recognizer: mapping.onTap != null
+                  ? (TapGestureRecognizer()
+                    ..onTap = () => mapping.onTap!(matchText))
+                  : null,
             );
           } else if (mapping.renderWidget != null) {
             widget = WidgetSpan(
               alignment: PlaceholderAlignment.middle,
               child: GestureDetector(
-                onTap: () => mapping.onTap!(matchText),
+                onTap: mapping.onTap != null
+                    ? () => mapping.onTap!(matchText)
+                    : null,
                 child: mapping.renderWidget!(
                     text: matchText, pattern: mapping.pattern!),
               ),
@@ -166,8 +170,10 @@ class ParsedText extends StatelessWidget {
             widget = TextSpan(
               text: "$matchText",
               style: mapping.style != null ? mapping.style : style,
-              recognizer: TapGestureRecognizer()
-                ..onTap = () => mapping.onTap!(matchText),
+              recognizer: mapping.onTap != null
+                  ? (TapGestureRecognizer()
+                    ..onTap = () => mapping.onTap!(matchText))
+                  : null,
             );
           }
         } else {
